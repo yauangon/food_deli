@@ -9,6 +9,9 @@ func (s *store) ListDataWithCondition(condition map[string]interface{}, paging *
 	db := s.db
 	db = db.Table(restaurantmodel.Restaurant{}.TableName())
 	db = db.Where("status=?", 1)
+	if err := db.Error; err != nil {
+		return nil, err
+	}
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, err
 	}

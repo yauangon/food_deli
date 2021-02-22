@@ -12,7 +12,7 @@ type listResBiz struct {
 	store ListResStore
 }
 
-func ListResBiz(store ListResStore) *listResBiz {
+func NewListResBiz(store ListResStore) *listResBiz {
 	return &listResBiz{store: store}
 }
 

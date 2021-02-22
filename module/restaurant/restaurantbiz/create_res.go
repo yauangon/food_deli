@@ -10,7 +10,7 @@ type createRestaurantBiz struct {
 	store CreateRestaurantStore
 }
 
-func CreateRestaurantBiz(store CreateRestaurantStore) *createRestaurantBiz {
+func NewCreateRestaurantBiz(store CreateRestaurantStore) *createRestaurantBiz {
 	return &createRestaurantBiz{store: store}
 }
 

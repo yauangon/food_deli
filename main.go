@@ -45,9 +45,12 @@ func main() {
 	{
 		resRoute.GET("", ginrestaurant.ListRestaurant(appCtx))
 		resRoute.POST("", ginrestaurant.CreateRestaurant(appCtx))
+		resRoute.DELETE("/:restaurant-id", ginrestaurant.DeleteRestaurant(appCtx))
+		resRoute.PATCH("/:restaurant-id")
 	}
 	userRoute := routerV1.Group("/users")
 	{
+		userRoute.POST("", ginuser.CreateUser(appCtx))
 		userRoute.DELETE("/:user-id", ginuser.DeleteUser(appCtx))
 	}
 

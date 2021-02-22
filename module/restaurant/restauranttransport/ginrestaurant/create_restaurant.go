@@ -12,7 +12,7 @@ import (
 
 func CreateRestaurant(provider common.DBProvider) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		
+
 		var res restaurantmodel.Restaurant
 		if err := c.ShouldBind(&res); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -23,7 +23,7 @@ func CreateRestaurant(provider common.DBProvider) func(c *gin.Context) {
 
 		db := provider.GetMainDBConnection()
 		store := restaurantstorage.NewSQLStore(db)
-		biz := restaurantbiz.CreateRestaurantBiz(store)
+		biz := restaurantbiz.NewCreateRestaurantBiz(store)
 		if err := biz.CreateRestaurant(&res); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),

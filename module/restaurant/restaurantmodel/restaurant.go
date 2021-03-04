@@ -15,6 +15,9 @@ type Restaurant struct {
 	Status         int        `json:"status" form:"status" gorm:"default:1"`
 }
 
+// Entity name
+var Entity = "Restaurant"
+
 // TableName of restaurants
 func (Restaurant) TableName() string {
 	return "restaurants"

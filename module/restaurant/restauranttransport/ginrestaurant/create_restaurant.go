@@ -15,9 +15,7 @@ func CreateRestaurant(provider common.DBProvider) func(c *gin.Context) {
 
 		var res restaurantmodel.Restaurant
 		if err := c.ShouldBind(&res); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
+			c.JSON(http.StatusBadRequest, common.ErrInvalidRequest(err))
 			return
 		}
 
@@ -25,9 +23,7 @@ func CreateRestaurant(provider common.DBProvider) func(c *gin.Context) {
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewCreateRestaurantBiz(store)
 		if err := biz.CreateRestaurant(&res); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": err.Error(),
-			})
+			c.JSON(http.StatusBadRequest, err)
 			return
 		}
 		c.JSON(http.StatusAccepted, common.SimpleSuccessResponse(1))

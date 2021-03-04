@@ -19,9 +19,7 @@ func DeleteRestaurant(provider common.DBProvider) func(c *gin.Context) {
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewDeleteRestaurantBiz(store)
 		if err := biz.DeleteRestaurant(id); err != nil {
-			c.JSON(http.StatusGone, gin.H{
-				"error": err.Error(),
-			})
+			c.JSON(http.StatusGone, err)
 			return
 		}
 		c.JSON(http.StatusAccepted, common.SimpleSuccessResponse(1))

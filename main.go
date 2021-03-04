@@ -5,8 +5,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/thanhdat1902/restapi/food_deli/component/appctx"
-	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restauranttransport/ginrestaurant"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/usertransport/ginuser"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -37,22 +35,8 @@ func main() {
 	}
 	log.Println("Connected to db", db)
 
-	// Router
+	// Routers
 	router := gin.Default()
-	// Test new Res
-	routerV1 := router.Group("/v1")
-	resRoute := routerV1.Group("/restaurants")
-	{
-		resRoute.GET("", ginrestaurant.ListRestaurant(appCtx))
-		resRoute.POST("", ginrestaurant.CreateRestaurant(appCtx))
-		resRoute.DELETE("/:restaurant-id", ginrestaurant.DeleteRestaurant(appCtx))
-		resRoute.PATCH("/:restaurant-id")
-	}
-	userRoute := routerV1.Group("/users")
-	{
-		userRoute.POST("", ginuser.CreateUser(appCtx))
-		userRoute.DELETE("/:user-id", ginuser.DeleteUser(appCtx))
-	}
-
+	SetUpHomeRoute(router, appCtx)
 	router.Run(":8080")
 }

@@ -1,8 +1,7 @@
 package restaurantbiz
 
 import (
-	"errors"
-
+	"github.com/thanhdat1902/restapi/food_deli/common"
 	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restaurantmodel"
 )
 
@@ -21,14 +20,14 @@ func NewDeleteRestaurantBiz(store DeleteRestaurantStore) *deleteRestaurantBiz {
 func (biz *deleteRestaurantBiz) DeleteRestaurant(resID int) error {
 	res, err := biz.store.FindDataWithCondition(map[string]interface{}{"id": resID})
 	if err != nil {
-		return err
+		return common.ErrEntityNotFound(restaurantmodel.Entity, err)
 	}
 
 	if res.Status == 0 {
-		return errors.New("Res deleted before")
+		return common.ErrDeletedBefore(restaurantmodel.Entity, err)
 	}
 	if err := biz.store.Delete(res.ID); err != nil {
-		return err
+		return common.ErrCannotDeleteEntity(restaurantmodel.Entity, err)
 	}
 	return nil
 }

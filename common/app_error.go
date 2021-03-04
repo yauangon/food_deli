@@ -57,6 +57,7 @@ func (e *AppError) Error() string {
 /////
 var RecordNotFound = errors.New("data not found")
 
+// Error with handle DB
 func ErrDB(err error) *AppError {
 	return NewErrorResponse(err, "something went wrong with DB", err.Error(), "DB_ERROR")
 }
@@ -114,5 +115,13 @@ func ErrCannotCreateEntity(entity string, err error) *AppError {
 		err,
 		fmt.Sprintf("Cannot Create %s", strings.ToLower(entity)),
 		fmt.Sprintf("ErrCannotCreate%s", entity),
+	)
+}
+
+func ErrDeletedBefore(entity string, err error) *AppError {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s deleted before", strings.ToLower(entity)),
+		fmt.Sprintf("ErrDeletedBefore%s", entity),
 	)
 }

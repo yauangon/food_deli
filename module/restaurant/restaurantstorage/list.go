@@ -10,10 +10,10 @@ func (s *store) ListDataWithCondition(condition map[string]interface{}, paging *
 	db = db.Table(restaurantmodel.Restaurant{}.TableName())
 	db = db.Where("status=?", 1)
 	if err := db.Error; err != nil {
-		return nil, err
+		return nil, common.ErrDB(err)
 	}
 	if err := db.Count(&paging.Total).Error; err != nil {
-		return nil, err
+		return nil, common.ErrDB(err)
 	}
 	var data []restaurantmodel.Restaurant
 	paging.Fulfill()
@@ -21,7 +21,7 @@ func (s *store) ListDataWithCondition(condition map[string]interface{}, paging *
 		Offset((paging.Page - 1) * paging.Limit).
 		Limit(paging.Limit).
 		Find(&data).Error; err != nil {
-		return nil, err
+		return nil, common.ErrDB(err)
 	}
 	return data, nil
 }

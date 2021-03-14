@@ -17,9 +17,9 @@ func GetRestaurantByID(provider common.DBProvider) func(c *gin.Context) {
 		db := provider.GetMainDBConnection()
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewGetReataurant(store)
-		res, err := biz.GetRestaurantById(id)
+		res, err := biz.GetRestaurantById(c.Request.Context(), id)
 		if err != nil {
-			c.JSON(http.StatusNotFound, err)
+			c.JSON(err.StatusCode, err)
 			return
 		}
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(res))

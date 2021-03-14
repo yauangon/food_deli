@@ -1,9 +1,13 @@
 package userbiz
 
-import "github.com/thanhdat1902/restapi/food_deli/module/user/usermodel"
+import (
+	"context"
+
+	"github.com/thanhdat1902/restapi/food_deli/module/user/usermodel"
+)
 
 type CreateUserStore interface {
-	Create(user *usermodel.User) error
+	Create(ctx context.Context, user *usermodel.User) error
 }
 
 type createUserBiz struct {
@@ -14,8 +18,8 @@ func NewCreateUserBiz(store CreateUserStore) *createUserBiz {
 	return &createUserBiz{store: store}
 }
 
-func (biz *createUserBiz) Create(user *usermodel.User) error {
-	if err := biz.store.Create(user); err != nil {
+func (biz *createUserBiz) Create(ctx context.Context, user *usermodel.User) error {
+	if err := biz.store.Create(ctx, user); err != nil {
 		return err
 	}
 	return nil

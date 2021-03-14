@@ -17,7 +17,7 @@ func DeleteUser(provider common.DBProvider) func(c *gin.Context) {
 
 		store := userstorage.NewSQLStore(db)
 		biz := userbiz.NewDeleteUserBiz(store)
-		if err := biz.DeleteUser(id); err != nil {
+		if err := biz.DeleteUser(c.Request.Context(), id); err != nil {
 			c.JSON(http.StatusGone, gin.H{
 				"error": err.Error(),
 			})

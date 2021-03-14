@@ -10,6 +10,7 @@ import (
 
 // SetupHomeRoute : Home router
 func SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
+	// Apply recover middleware
 	r.Use(middleware.Recover(appCtx))
 	// API list
 	routerV1 := r.Group("/v1")
@@ -18,7 +19,7 @@ func SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
 		resRoute.GET("", ginrestaurant.ListRestaurant(appCtx))
 		resRoute.POST("", ginrestaurant.CreateRestaurant(appCtx))
 		resRoute.DELETE("/:restaurant-id", ginrestaurant.DeleteRestaurant(appCtx))
-		resRoute.GET("/:restaurant-id")
+		resRoute.GET("/:restaurant-id", ginrestaurant.GetRestaurantByID(appCtx))
 	}
 	userRoute := routerV1.Group("/users")
 	{

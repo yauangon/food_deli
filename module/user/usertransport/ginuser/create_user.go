@@ -25,7 +25,7 @@ func CreateUser(provider common.DBProvider) func(c *gin.Context) {
 			return
 		}
 
-		if err := biz.Create(&user); err != nil {
+		if err := biz.Create(c.Request.Context(), &user); err != nil {
 			c.JSON(http.StatusGone, gin.H{
 				"error": err.Error(),
 			})

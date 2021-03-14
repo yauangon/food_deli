@@ -1,7 +1,6 @@
 package ginrestaurant
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -14,14 +13,13 @@ import (
 func DeleteRestaurant(provider common.DBProvider) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		id, _ := strconv.Atoi(c.Param("restaurant-id"))
-		log.Println(id)
 		db := provider.GetMainDBConnection()
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewDeleteRestaurantBiz(store)
-		if err := biz.DeleteRestaurant(id); err != nil {
-			c.JSON(http.StatusGone, err)
+		if err := biz.DeleteRestaurant(c.Request.Context(), id); err != nil {
+			c.JSON(err.StatusCode, err)
 			return
 		}
-		c.JSON(http.StatusAccepted, common.SimpleSuccessResponse(1))
+		c.JSON(http.StatusNoContent, common.SimpleSuccessResponse(1))
 	}
 }

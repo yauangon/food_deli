@@ -15,6 +15,7 @@ type AppError struct {
 	Key        string `json:"error_key"`
 }
 
+// Type of Error
 func NewErrorResponse(root error, msg, log, key string) *AppError {
 	return &AppError{
 		StatusCode: http.StatusBadRequest,
@@ -33,7 +34,16 @@ func NewUnauthorized(root error, msg, key string) *AppError {
 		Key:        key,
 	}
 }
+func NewDeletedBefore(msg, key string) *AppError {
+	return &AppError{
+		StatusCode: http.StatusNotFound,
+		RootErr:    nil,
+		Message:    msg,
+		Key:        key,
+	}
+}
 
+// Custom error base on BAD REQUEST
 func NewCustomError(root error, msg string, key string) *AppError {
 	if root != nil {
 		return NewErrorResponse(root, msg, root.Error(), key)
@@ -57,7 +67,7 @@ func (e *AppError) Error() string {
 /////
 var RecordNotFound = errors.New("data not found")
 
-// Error with handle DB
+// Error custom type
 func ErrDB(err error) *AppError {
 	return NewErrorResponse(err, "something went wrong with DB", err.Error(), "DB_ERROR")
 }
@@ -118,9 +128,8 @@ func ErrCannotCreateEntity(entity string, err error) *AppError {
 	)
 }
 
-func ErrDeletedBefore(entity string, err error) *AppError {
-	return NewCustomError(
-		err,
+func ErrDeletedBefore(entity string) *AppError {
+	return NewDeletedBefore(
 		fmt.Sprintf("%s deleted before", strings.ToLower(entity)),
 		fmt.Sprintf("ErrDeletedBefore%s", entity),
 	)

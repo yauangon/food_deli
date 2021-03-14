@@ -19,10 +19,11 @@ func ListRestaurant(provider common.DBProvider) func(c *gin.Context) {
 		db := provider.GetMainDBConnection()
 		store := restaurantstorage.NewSQLStore(db)
 		biz := restaurantbiz.NewListResBiz(store)
+		paging.Fulfill()
 
-		data, err := biz.ListRestaurant(&paging)
+		data, err := biz.ListRestaurant(c.Request.Context(), &paging)
 		if err != nil {
-			c.JSON(http.StatusGone, err)
+			c.JSON(err.StatusCode, err)
 			return
 		}
 		c.JSON(http.StatusOK, common.NewSuccessResponse(data, paging, nil))

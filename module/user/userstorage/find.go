@@ -1,8 +1,12 @@
 package userstorage
 
-import "github.com/thanhdat1902/restapi/food_deli/module/user/usermodel"
+import (
+	"context"
 
-func (s *store) FindDataWithCondition(condition map[string]interface{}) (*usermodel.User, error) {
+	"github.com/thanhdat1902/restapi/food_deli/module/user/usermodel"
+)
+
+func (s *store) FindDataWithCondition(ctx context.Context, condition map[string]interface{}) (*usermodel.User, error) {
 	db := s.db
 
 	var data usermodel.User

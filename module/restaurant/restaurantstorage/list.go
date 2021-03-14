@@ -1,11 +1,13 @@
 package restaurantstorage
 
 import (
+	"context"
+
 	"github.com/thanhdat1902/restapi/food_deli/common"
 	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restaurantmodel"
 )
 
-func (s *store) ListDataWithCondition(condition map[string]interface{}, paging *common.Paging) ([]restaurantmodel.Restaurant, error) {
+func (s *store) ListDataWithCondition(ctx context.Context, condition map[string]interface{}, paging *common.Paging) ([]restaurantmodel.Restaurant, *common.AppError) {
 	db := s.db
 	db = db.Table(restaurantmodel.Restaurant{}.TableName())
 	db = db.Where("status=?", 1)

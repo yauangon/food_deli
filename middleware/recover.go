@@ -13,12 +13,12 @@ func Recover(sc common.DBProvider) gin.HandlerFunc {
 
 				if appErr, ok := err.(common.AppError); ok {
 					c.AbortWithStatusJSON(appErr.StatusCode, appErr)
-					// panic(err)
+					panic(err)
 				}
 
 				appErr := common.ErrInternal(err.(error))
 				c.AbortWithStatusJSON(appErr.StatusCode, appErr)
-				// panic(err)
+				panic(err)
 			}
 		}()
 

@@ -24,7 +24,9 @@ func SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
 	userRoute := routerV1.Group("/users")
 	{
 		userRoute.POST("", ginuser.CreateUser(appCtx))
+		userRoute.GET("/:user-id", ginuser.GetUserByID(appCtx))
 		userRoute.DELETE("/:user-id", ginuser.DeleteUser(appCtx))
+		userRoute.GET("", ginuser.ListUsers(appCtx))
 	}
 }
 

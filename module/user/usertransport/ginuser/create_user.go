@@ -19,18 +19,14 @@ func CreateUser(provider common.DBProvider) func(c *gin.Context) {
 		biz := userbiz.NewCreateUserBiz(store)
 
 		if err := c.ShouldBind(&user); err != nil {
-			c.JSON(http.StatusGone, gin.H{
-				"error": err.Error(),
-			})
+			c.JSON(http.StatusBadRequest, common.ErrInvalidRequest(err))
 			return
 		}
 
 		if err := biz.Create(c.Request.Context(), &user); err != nil {
-			c.JSON(http.StatusGone, gin.H{
-				"error": err.Error(),
-			})
+			c.JSON(err.StatusCode, err)
 			return
 		}
-		c.JSON(http.StatusOK, common.SimpleSuccessResponse(1))
+		c.JSON(http.StatusCreated, common.SimpleSuccessResponse(1))
 	}
 }

@@ -2,6 +2,7 @@ package ginuser
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thanhdat1902/restapi/food_deli/common"
@@ -9,22 +10,17 @@ import (
 	"github.com/thanhdat1902/restapi/food_deli/module/user/userstorage"
 )
 
-func ListUsers(provider common.DBProvider) func(c *gin.Context) {
+func GetUserByID(provider common.DBProvider) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		var paging common.Paging
-		if err := c.ShouldBind(&paging); err != nil {
-			c.JSON(http.StatusOK, common.ErrInvalidRequest(err))
-			return
-		}
+		id, _ := strconv.Atoi(c.Param("user-id"))
 		db := provider.GetMainDBConnection()
 		store := userstorage.NewSQLStore(db)
-		biz := userbiz.NewListUserBiz(store)
-
-		data, err := biz.ListUsers(c.Request.Context(), &paging)
+		biz := userbiz.NewGetUserBiz(store)
+		user, err := biz.GetUserByID(c.Request.Context(), id)
 		if err != nil {
 			c.JSON(err.StatusCode, err)
 			return
 		}
-		c.JSON(http.StatusOK, common.NewSuccessResponse(data, paging, nil))
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(user))
 	}
 }

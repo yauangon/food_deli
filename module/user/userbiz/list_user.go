@@ -8,7 +8,7 @@ import (
 )
 
 type ListUserStore interface {
-	ListUsers(ctx context.Context, paging *common.Paging) ([]usermodel.User, error)
+	ListUsers(ctx context.Context, paging *common.Paging) ([]usermodel.User, *common.AppError)
 }
 
 type listUserBiz struct {
@@ -19,10 +19,10 @@ func NewListUserBiz(store ListUserStore) *listUserBiz {
 	return &listUserBiz{store: store}
 }
 
-func (biz *listUserBiz) ListUsers(ctx context.Context, paging *common.Paging) ([]usermodel.User, error) {
+func (biz *listUserBiz) ListUsers(ctx context.Context, paging *common.Paging) ([]usermodel.User, *common.AppError) {
 	data, err := biz.store.ListUsers(ctx, paging)
 	if err != nil {
-		return nil, err
+		return nil, common.ErrCannotListEntity(usermodel.EntityName, err)
 	}
 	return data, nil
 }

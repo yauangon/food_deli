@@ -2,6 +2,7 @@ package ginrestaurant
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thanhdat1902/restapi/food_deli/common"
@@ -10,22 +11,24 @@ import (
 	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restaurantstorage"
 )
 
-func CreateRestaurant(provider common.DBProvider) func(c *gin.Context) {
+func UpdateRestaurant(provider common.DBProvider) func(c *gin.Context) {
 	return func(c *gin.Context) {
-
-		var res restaurantmodel.CreateRestaurant
-		if err := c.ShouldBind(&res); err != nil {
+		var data restaurantmodel.Restaurant
+		id, _ := strconv.Atoi(c.Param("restaurant-id"))
+		if err := c.ShouldBind(&data); err != nil {
 			c.JSON(http.StatusBadRequest, common.ErrInvalidRequest(err))
 			return
 		}
 
+		data.ID = id
+
 		db := provider.GetMainDBConnection()
 		store := restaurantstorage.NewSQLStore(db)
-		biz := restaurantbiz.NewCreateRestaurantBiz(store)
-		if err := biz.CreateRestaurant(c.Request.Context(), &res); err != nil {
+		biz := restaurantbiz.NewUpdateRestaurantBiz(store)
+		if err := biz.UpdateRestaurant(c.Request.Context(), &data); err != nil {
 			c.JSON(err.StatusCode, err)
 			return
 		}
-		c.JSON(http.StatusCreated, common.SimpleSuccessResponse(1))
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(1))
 	}
 }

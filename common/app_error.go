@@ -25,19 +25,19 @@ func NewErrorResponse(root error, msg, log, key string) *AppError {
 		Key:        key,
 	}
 }
-
+func NewFullErrorResponse(statusCode int, root error, msg, log, key string) *AppError {
+	return &AppError{
+		StatusCode: http.StatusBadRequest,
+		RootErr:    root,
+		Message:    msg,
+		Log:        log,
+		Key:        key,
+	}
+}
 func NewUnauthorized(root error, msg, key string) *AppError {
 	return &AppError{
 		StatusCode: http.StatusUnauthorized,
 		RootErr:    root,
-		Message:    msg,
-		Key:        key,
-	}
-}
-func NewDeletedBefore(msg, key string) *AppError {
-	return &AppError{
-		StatusCode: http.StatusNotFound,
-		RootErr:    nil,
 		Message:    msg,
 		Key:        key,
 	}
@@ -64,9 +64,6 @@ func (e *AppError) Error() string {
 	return e.RootError().Error()
 }
 
-/////
-var RecordNotFound = errors.New("data not found")
-
 // Error custom type
 func ErrDB(err error) *AppError {
 	return NewErrorResponse(err, "something went wrong with DB", err.Error(), "DB_ERROR")
@@ -77,9 +74,19 @@ func ErrInvalidRequest(err error) *AppError {
 }
 
 func ErrInternal(err error) *AppError {
-	return NewErrorResponse(err, "internal error", err.Error(), "ErrInternal")
+	return NewFullErrorResponse(http.StatusInternalServerError, err, "internal error", err.Error(), "ErrInternal")
+}
+func ErrDeletedBefore(entity string) *AppError {
+	return NewFullErrorResponse(
+		http.StatusNotFound,
+		nil,
+		fmt.Sprintf("%s deleted before", strings.ToLower(entity)),
+		fmt.Sprintf("%s status in DB is 0", strings.ToLower(entity)),
+		fmt.Sprintf("ErrDeletedBefore%s", entity),
+	)
 }
 
+// Error with custom with NEWCUSTOM ERROR
 func ErrCannotListEntity(entity string, err error) *AppError {
 	return NewCustomError(
 		err,
@@ -128,9 +135,10 @@ func ErrCannotCreateEntity(entity string, err error) *AppError {
 	)
 }
 
-func ErrDeletedBefore(entity string) *AppError {
-	return NewDeletedBefore(
-		fmt.Sprintf("%s deleted before", strings.ToLower(entity)),
-		fmt.Sprintf("ErrDeletedBefore%s", entity),
+func ErrCannotUpdateEntity(entity string, err error) *AppError {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("Cannot Update %s", strings.ToLower(entity)),
+		fmt.Sprintf("ErrCannotUpdate%s", entity),
 	)
 }

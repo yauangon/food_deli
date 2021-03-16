@@ -8,7 +8,7 @@ import (
 )
 
 type CreateRestaurantStore interface {
-	CreateNewRestaurant(ctx context.Context, res *restaurantmodel.Restaurant) *common.AppError
+	Create(ctx context.Context, res *restaurantmodel.CreateRestaurant) *common.AppError
 }
 
 type createRestaurantBiz struct {
@@ -19,8 +19,8 @@ func NewCreateRestaurantBiz(store CreateRestaurantStore) *createRestaurantBiz {
 	return &createRestaurantBiz{store: store}
 }
 
-func (biz *createRestaurantBiz) CreateRestaurant(ctx context.Context, res *restaurantmodel.Restaurant) *common.AppError {
-	if err := biz.store.CreateNewRestaurant(ctx, res); err != nil {
+func (biz *createRestaurantBiz) CreateRestaurant(ctx context.Context, res *restaurantmodel.CreateRestaurant) *common.AppError {
+	if err := biz.store.Create(ctx, res); err != nil {
 		return common.ErrCannotCreateEntity(restaurantmodel.Entity, err)
 	}
 	return nil

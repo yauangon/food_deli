@@ -9,7 +9,7 @@ import (
 )
 
 // SetupHomeRoute : Home router
-func SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
+func  SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
 	// Apply recover middleware
 	r.Use(middleware.Recover(appCtx))
 	// API list

@@ -24,5 +24,8 @@ func (biz *getRestaurantBiz) GetRestaurantById(ctx context.Context, id int) (*re
 	if err != nil {
 		return nil, common.ErrCannotGetEntity(restaurantmodel.Entity, err)
 	}
+	if res.ID == 0 {
+		return nil, common.ErrDeletedBefore(restaurantmodel.Entity)
+	}
 	return res, nil
 }

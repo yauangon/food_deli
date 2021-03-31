@@ -3,8 +3,9 @@ package main
 import (
 	"log"
 
+	"food_deli/component/appctx"
+
 	"github.com/gin-gonic/gin"
-	"github.com/thanhdat1902/restapi/food_deli/component/appctx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

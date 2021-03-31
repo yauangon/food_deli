@@ -1,15 +1,19 @@
 package main
 
 import (
+	"food_deli/common"
+
+	"food_deli/module/restaurant/restauranttransport/ginrestaurant"
+
+	"food_deli/module/user/usertransport/ginuser"
+
+	"food_deli/middleware"
+
 	"github.com/gin-gonic/gin"
-	"github.com/thanhdat1902/restapi/food_deli/common"
-	"github.com/thanhdat1902/restapi/food_deli/middleware"
-	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restauranttransport/ginrestaurant"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/usertransport/ginuser"
 )
 
 // SetupHomeRoute : Home router
-func  SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
+func SetUpHomeRoute(r *gin.Engine, appCtx common.DBProvider) {
 	// Apply recover middleware
 	r.Use(middleware.Recover(appCtx))
 	// API list

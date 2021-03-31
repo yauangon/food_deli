@@ -3,8 +3,9 @@ package userbiz
 import (
 	"context"
 
-	"github.com/thanhdat1902/restapi/food_deli/common"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/usermodel"
+	"food_deli/common"
+
+	"food_deli/module/user/usermodel"
 )
 
 type CreateUserStore interface {

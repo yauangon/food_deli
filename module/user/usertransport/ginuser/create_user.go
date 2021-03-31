@@ -3,11 +3,15 @@ package ginuser
 import (
 	"net/http"
 
+	"food_deli/common"
+
+	"food_deli/module/user/userbiz"
+
+	"food_deli/module/user/usermodel"
+
+	"food_deli/module/user/userstorage"
+
 	"github.com/gin-gonic/gin"
-	"github.com/thanhdat1902/restapi/food_deli/common"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/userbiz"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/usermodel"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/userstorage"
 )
 
 func CreateUser(provider common.DBProvider) func(c *gin.Context) {

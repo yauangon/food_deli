@@ -4,10 +4,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"food_deli/common"
+
+	"food_deli/module/user/userbiz"
+	"food_deli/module/user/userstorage"
+
 	"github.com/gin-gonic/gin"
-	"github.com/thanhdat1902/restapi/food_deli/common"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/userbiz"
-	"github.com/thanhdat1902/restapi/food_deli/module/user/userstorage"
 )
 
 func DeleteUser(provider common.DBProvider) func(c *gin.Context) {

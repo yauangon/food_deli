@@ -3,8 +3,9 @@ package restaurantbiz
 import (
 	"context"
 
-	"github.com/thanhdat1902/restapi/food_deli/common"
-	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restaurantmodel"
+	"food_deli/common"
+
+	"food_deli/module/restaurant/restaurantmodel"
 )
 
 type ListResStore interface {

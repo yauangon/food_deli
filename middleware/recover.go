@@ -1,8 +1,9 @@
 package middleware
 
 import (
+	"food_deli/common"
+
 	"github.com/gin-gonic/gin"
-	"github.com/thanhdat1902/restapi/food_deli/common"
 )
 
 func Recover(sc common.DBProvider) gin.HandlerFunc {

@@ -3,7 +3,7 @@ package restaurantmodel
 import (
 	"time"
 
-	"github.com/thanhdat1902/restapi/food_deli/common"
+	"food_deli/common"
 )
 
 // Restaurant type

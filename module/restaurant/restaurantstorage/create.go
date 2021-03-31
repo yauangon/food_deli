@@ -4,8 +4,9 @@ import (
 	"context"
 	"log"
 
-	"github.com/thanhdat1902/restapi/food_deli/common"
-	"github.com/thanhdat1902/restapi/food_deli/module/restaurant/restaurantmodel"
+	"food_deli/common"
+
+	"food_deli/module/restaurant/restaurantmodel"
 )
 
 func (s *store) Create(ctx context.Context, res *restaurantmodel.CreateRestaurant) *common.AppError {
